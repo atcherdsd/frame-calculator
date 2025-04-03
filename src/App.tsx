@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import CalculatorForm from '../src/components/CalculatorForm';
 import './index.css';
+import './App.css';
+import ResultsTable from './components/ResultTable';
 
 export type ResultsType = {
     area: number;
     cellSizeX: number;
     cellSizeY: number;
+    sheetsNeeded: number;
+    totalPipeLength: number;
+    screwsNeeded: number;
+    sheetCost: number;
+    pipeCost: number;
+    screwCost: number;
     totalCost: number;
+    material: string;
+    pipe: string;
 }
 
 const App: React.FC = () => {
@@ -17,16 +27,13 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="flex p-4 gap-4">
+        <div className="flex justify-between p-4 gap-4">
             <CalculatorForm onCalculate={handleCalculation} />
-            {results && (
-                <div>
-                    <h2 className="text-xl font-bold">Итоги расчета</h2>
-                    <div>Площадь изделия: {results.area.toFixed(2)} м²</div>
-                    <div>Размер ячейки: {results.cellSizeX.toFixed(2)} x {results.cellSizeY.toFixed(2)} м</div>
-                    <div>Итоговая стоимость: {results.totalCost.toFixed(2)}</div>
-                </div>
-            )}
+            <div className="w-1/2 flex flex-col gap-4">
+                {results && (
+                    <ResultsTable results={results} />
+                )}
+            </div>
         </div>
     );
 };
