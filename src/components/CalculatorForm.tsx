@@ -79,11 +79,13 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
       
             const pipeWidthM = pipeData.width / 1000;
             const pipePrice = pipeData.price;
-            const cellSizeX = Math.min(step, widthNum - pipeWidthM);
-            const cellSizeY = Math.min(step, lengthNum - pipeWidthM);
-            const pipesX = Math.ceil(widthNum / cellSizeX) + 1;
-            const pipesY = Math.ceil(lengthNum / cellSizeY) + 1;
+
+            const cellSizeX = Math.min(step - pipeWidthM, widthNum);
+            const cellSizeY = Math.min(step - pipeWidthM, lengthNum);
+            const pipesX = Math.ceil(widthNum / (cellSizeX + pipeWidthM)) + 1;
+            const pipesY = Math.ceil(lengthNum / (cellSizeY + pipeWidthM)) + 1;
             const totalPipeLength = (pipesX * lengthNum + pipesY * widthNum) + (pipesX * pipeWidthM + pipesY * pipeWidthM);
+            
             const pipeCost = totalPipeLength * pipePrice;
       
             const materialData = data.find(item => item.name === material && item.type === 'list') as DataListType;
