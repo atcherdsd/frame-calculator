@@ -130,7 +130,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
     return (
         <div>
             <h2 className="text-xl font-bold pb-4">Калькулятор</h2>
-            <div className="flex flex-col gap-2 min-w-[570px]">
+            <div className="flex flex-col gap-2 min-w-[300px]">
                 <label>Материал:</label>
                 <select value={material} onChange={(e) => setMaterial(e.target.value)} className="p-2 border rounded">
                     <option value="">Выберите материал</option>
@@ -160,7 +160,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
                 <label>Длина изделия (м):</label>
                 <input type="number" value={length} onChange={(e) => setLength(+e.target.value)} className="p-2 border rounded" />
 
-                {error && <div className="text-red-500 mt-2">{error}</div>}
+                {error && <div className="text-red-500 mt-2 max-w-[300px]">{error}</div>}
                 <Button onClick={handleCalculate} className="mt-4 bg-blue-500 text-white">Рассчитать</Button>
             </div>
         </div>

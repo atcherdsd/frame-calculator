@@ -27,9 +27,11 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="flex justify-between p-4 gap-4">
-            <CalculatorForm onCalculate={handleCalculation} />
-            <div className="w-1/2 flex flex-col gap-4">
+        <div className="flex flex-col md:flex-row justify-between p-4 gap-4">
+            <div className="w-full md:w-1/2">
+                <CalculatorForm onCalculate={handleCalculation} />
+            </div>
+            <div className="w-full md:w-1/2 mt-6 md:mt-0">
                 {results && (
                     <ResultsTable results={results} />
                 )}
