@@ -1,13 +1,19 @@
-import './App.css';
+import React, { useState } from 'react';
+import CalculatorForm from '../src/components/CalculatorForm';
+import './index.css';
 
-function App() {
+const App: React.FC = () => {
+    const [, setResults] = useState<object | null>(null);
+
+    const handleCalculation = (data: object | null) => {
+        setResults(data);
+    };
+
     return (
-        <>
-            <div className="flex items-start justify-start">
-                <h1 className="text-4xl font-bold text-green-500">Calculator</h1>
-            </div>
-        </>
-    )
-}
+        <div className="flex p-4 gap-4">
+            <CalculatorForm onCalculate={handleCalculation} />
+        </div>
+    );
+};
 
 export default App;
