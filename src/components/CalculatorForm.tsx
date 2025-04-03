@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import config from '../data/config.json';
 import data from '../data/data.json';
+import { ResultsType } from '../App';
 
 interface CalculatorFormProps {
-    onCalculate: (results: object | null) => void;
+    onCalculate: (results: ResultsType | null) => void;
 }
 
 type ConfigType = {
