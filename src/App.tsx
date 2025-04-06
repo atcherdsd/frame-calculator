@@ -3,21 +3,7 @@ import CalculatorForm from '../src/components/CalculatorForm';
 import './index.css';
 import './App.css';
 import ResultsTable from './components/ResultTable';
-
-export type ResultsType = {
-    area: number;
-    cellSizeX: number;
-    cellSizeY: number;
-    sheetsNeeded: number;
-    totalPipeLength: number;
-    screwsNeeded: number;
-    sheetCost: number;
-    pipeCost: number;
-    screwCost: number;
-    totalCost: number;
-    material: string;
-    pipe: string;
-}
+import { ResultsType } from './types/calc';
 
 const App: React.FC = () => {
     const [results, setResults] = useState<ResultsType | null>(null);
@@ -31,7 +17,7 @@ const App: React.FC = () => {
             <div className="w-full md:w-1/2">
                 <CalculatorForm onCalculate={handleCalculation} />
             </div>
-            <div className="w-full md:w-1/2 mt-6 md:mt-0">
+            <div className="flex flex-col gap-2 w-full md:w-1/2 mt-6 md:mt-0">
                 {results && (
                     <ResultsTable results={results} />
                 )}
