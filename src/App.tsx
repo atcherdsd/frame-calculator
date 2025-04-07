@@ -13,14 +13,18 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-between p-4 gap-4">
-            <div className="w-full md:w-1/2">
-                <CalculatorForm onCalculate={handleCalculation} />
-            </div>
-            <div className="flex flex-col gap-2 w-full md:w-1/2 mt-6 md:mt-0">
-                {results && (
-                    <ResultsTable results={results} />
-                )}
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 md:p-6 p-3">
+            <div className="max-w-7xl mx-auto flex flex-col xl:flex-row gap-10 animate-fade-in">
+                <div className="w-full xl:w-1/2">
+                    <CalculatorForm onCalculate={handleCalculation} />
+                </div>
+                <div className="w-full xl:w-1/2">
+                    {results && (
+                        <div className="flex flex-col gap-4 overflow-auto bg-white rounded-lg shadow-lg p-6 animate-slide-up">
+                            <ResultsTable results={results} />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

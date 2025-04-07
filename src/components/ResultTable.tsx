@@ -8,19 +8,19 @@ interface ResultsTableProps {
 const ResultsTable: React.FC<ResultsTableProps> = ({ results }) => {
     return (
         <>
-            <h2 className="text-xl font-bold">Итоги расчета</h2>
-            <div>Площадь изделия: {results.area.toFixed(2)} м²</div>
-            <div>Размер ячейки: {results.realCellSizeX.toFixed(2)} x {results.realCellSizeY.toFixed(2)} м</div>
-            <table className="table-auto w-full border-collapse border border-gray-200 mb-4">
+            <h2 className="text-2xl font-bold pb-4 text-indigo-700">Итоги расчета</h2>
+            <div className="mb-2">📐 Площадь изделия: {results.area.toFixed(2)} м²</div>
+            <div className="mb-4">🔲 Размер ячейки: {results.realCellSizeX.toFixed(2)} x {results.realCellSizeY.toFixed(2)} м</div>
+            <table className="table-auto w-full border border-gray-300 shadow-sm rounded overflow-hidden mb-6">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr className="bg-indigo-100 text-indigo-800">
                         <th className="border px-4 py-2">Наименование</th>
                         <th className="border px-4 py-2">ед.</th>
                         <th className="border px-4 py-2">кол-во</th>
                         <th className="border px-4 py-2">сумма (руб.)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white text-gray-700">
                     <tr>
                         <td className="border px-4 py-2">{results.material}</td>
                         <td className="border px-4 py-2">м²</td>
@@ -41,7 +41,9 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ results }) => {
                     </tr>
                 </tbody>
             </table>
-            <div className="text-lg font-bold">Итоговая стоимость: {results.totalCost.toFixed(2)} руб.</div>
+            <div className="text-lg font-bold text-[#413e9c] border-t pt-4">
+                Итоговая стоимость: {results.totalCost.toFixed(2)} руб.
+            </div>
         </>
     );
 };

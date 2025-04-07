@@ -121,7 +121,7 @@ function validateInputs(
         length < lengthConfig.min || length > lengthConfig.max
     ) {
         setError(
-            `Размеры должны быть в пределах: ширина от ${widthConfig.min} до ${widthConfig.max} м, длина от ${lengthConfig.min} до ${lengthConfig.max} м`
+            `Размеры должны быть в пределах: ширина от ${widthConfig.min} до ${widthConfig.max}\u00A0м, длина от ${lengthConfig.min} до ${lengthConfig.max}\u00A0м`
         );
         return;
     }

@@ -37,9 +37,13 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
     };
 
     return (
-        <form onSubmit={handleCalculate} noValidate className="flex flex-col gap-3 min-w-[300px]">
-            <h2 className="text-xl font-bold pb-6">Калькулятор</h2>
-            <label>Материал:</label>
+        <form 
+            onSubmit={handleCalculate} 
+            noValidate 
+            className="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-4 min-w-[300px] animate-slide-up"
+        >
+            <h2 className="text-2xl font-bold pb-4 text-blue-700">Калькулятор</h2>
+            <label className="font-semibold">Материал:</label>
             <select value={material} required onChange={(e) => setMaterial(e.target.value)} className="p-2 border rounded">
                 <option value="">Выберите материал</option>
                 {data.filter(item => item.type === 'list').map(item => (
@@ -47,7 +51,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
                 ))}
             </select>
 
-            <label>Труба:</label>
+            <label className="font-semibold">Труба:</label>
             <select value={pipe} required onChange={(e) => setPipe(e.target.value)} className="p-2 border rounded">
                 <option value="">Выберите трубу</option>
                 {data.filter(item => item.type === 'pipe').map(item => (
@@ -55,14 +59,14 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
                 ))}
             </select>
 
-            <label>Прочность:</label>
+            <label className="font-semibold">Прочность:</label>
                 <select value={strength} onChange={(e) => setStrength(e.target.value)} className="p-2 border rounded">
                 {config.filter(item => item.type === 'frame').map(item => (
                     <option key={item.key} value={item.key}>{item.name}</option>
                 ))}
             </select>
 
-            <label>Ширина изделия (м):</label>
+            <label className="font-semibold">Ширина изделия (м):</label>
             <input 
                 type="number" 
                 step="0.01" 
@@ -74,7 +78,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
                 className="p-2 border rounded" 
             />
 
-            <label>Длина изделия (м):</label>
+            <label className="font-semibold">Длина изделия (м):</label>
             <input 
                 type="number" 
                 step="0.01" 
@@ -86,8 +90,8 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
                 className="p-2 border rounded" 
             />
 
-            {error && <div className="text-red-500 mt-2">{error}</div>}
-            <Button className="mt-4 bg-blue-500 text-white">Рассчитать</Button>
+            {error && <div className="text-red-600 font-medium mt-2">{error}</div>}
+            <Button className="mt-4 bg-blue-600 hover:bg-blue-700 transition text-white">Рассчитать</Button>
         </form>
     );
 };
