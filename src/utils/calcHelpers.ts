@@ -85,3 +85,7 @@ export function calculateScrewParams(area: number, fixConfig: ConfigFix, fixData
     const screwCost = screwsNeeded * fixData.price;
     return { screwsNeeded, screwCost };
 }
+
+export function getMaterialType(type: string) {
+    return type === 'plastic' ? 'пластик' : type === 'metal' ? 'металл' : type;
+}

@@ -1,10 +1,13 @@
 import React, { FormEvent, useState } from 'react';
 import Button from '../components/ui/Button';
-import { ResultsType } from '../types/calc';
+import { ResultsType, SortDirectionType, SortType } from '../types/calc';
 import { useCalculator } from '../hooks/useCalculator';
 import { loadConfig, loadData } from '../utils/loadData';
 import { ConfigItem } from '../schemas/configSchema';
 import { DataItem } from '../schemas/dataSchema';
+import MaterialSelector from './MaterialSelector';
+import Selector, { SelectorOption } from './ui/Selector';
+import Input from './ui/Input';
 
 const config: ConfigItem[] = loadConfig();
 const data: DataItem[] = loadData();
@@ -18,6 +21,10 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
     const [strength, setStrength] = useState<string>('standard');
     const [width, setWidth] = useState<number>(10);
     const [length, setLength] = useState<number>(10);
+
+    const [materialFilter, setMaterialFilter] = useState<string>('all');
+    const [sortBy, setSortBy] = useState<SortType>('price');
+    const [sortDirection, setSortDirection] = useState<SortDirectionType>('asc');
 
     const { calculate, error, widthConfig, lengthConfig } = useCalculator();
 
@@ -36,60 +43,97 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ onCalculate }) => {
         })
     };
 
+    const allMaterials = data.filter(item => item.type === 'list');
+
+    const filteredMaterials = materialFilter === 'all'
+        ? allMaterials
+        : allMaterials.filter(item => item.material === materialFilter);
+
+    const sortedMaterials = filteredMaterials.sort((a, b) => {
+        const key = sortBy;
+        const aValue = a[key];
+        const bValue = b[key];
+        return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+    });
+
+    const materialSelectorProps = { 
+        materialFilter, 
+        setMaterialFilter, 
+        allMaterials,
+        sortBy,
+        setSortBy,
+        sortDirection,
+        setSortDirection,
+        material,
+        setMaterial,
+        sortedMaterials
+    };
+
+    const pipeSelectOptions: SelectorOption[] = [
+        { value: '', text: 'Выберите трубу' },
+        ...data.filter(item => item.type === 'pipe').map(item => ({
+            value: item.name,
+            text: item.name
+        }))
+    ];
+    const strengthSelectOptions: SelectorOption[] = [
+        ...config.filter(item => item.type === 'frame').map(item => ({
+            value: item.key,
+            text: item.name
+        }))
+    ];
+
     return (
         <form 
             onSubmit={handleCalculate} 
             noValidate 
-            className="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-4 min-w-[300px] animate-slide-up"
+            className="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-3 min-w-[300px] animate-slide-up"
         >
-            <h2 className="text-2xl font-bold pb-4 text-blue-700">Калькулятор</h2>
-            <label className="font-semibold">Материал:</label>
-            <select value={material} required onChange={(e) => setMaterial(e.target.value)} className="p-2 border rounded">
-                <option value="">Выберите материал</option>
-                {data.filter(item => item.type === 'list').map(item => (
-                    <option key={item.name} value={item.name}>{item.name}</option>
-                ))}
-            </select>
+            <h1 className="text-2xl font-bold pb-4 text-blue-700">Калькулятор расчета каркаса</h1>
 
-            <label className="font-semibold">Труба:</label>
-            <select value={pipe} required onChange={(e) => setPipe(e.target.value)} className="p-2 border rounded">
-                <option value="">Выберите трубу</option>
-                {data.filter(item => item.type === 'pipe').map(item => (
-                    <option key={item.name} value={item.name}>{item.name}</option>
-                ))}
-            </select>
+            <div className="p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm flex flex-col gap-3">
+                <h2 className="text-lg font-semibold text-gray-800">Материал покрытия:</h2>
+                <MaterialSelector {...materialSelectorProps} />
+            </div>
 
-            <label className="font-semibold">Прочность:</label>
-                <select value={strength} onChange={(e) => setStrength(e.target.value)} className="p-2 border rounded">
-                {config.filter(item => item.type === 'frame').map(item => (
-                    <option key={item.key} value={item.key}>{item.name}</option>
-                ))}
-            </select>
+            <div className="p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm flex flex-col gap-3">
+                <Selector 
+                    label="Труба каркаса:"
+                    value={pipe}
+                    onChange={setPipe}
+                    required
+                    options={pipeSelectOptions}
+                />
+            </div>
 
-            <label className="font-semibold">Ширина изделия (м):</label>
-            <input 
-                type="number" 
-                step="0.01" 
-                min={widthConfig?.min}
-                max={widthConfig?.max}
-                value={width} 
-                required
-                onChange={(e) => setWidth(+e.target.value)} 
-                className="p-2 border rounded" 
-            />
+            <div className="p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm flex flex-col gap-3">
+                <Selector 
+                    label="Прочность каркаса:"
+                    value={strength}
+                    onChange={setStrength}
+                    required
+                    options={strengthSelectOptions}
+                />
+            </div>
 
-            <label className="font-semibold">Длина изделия (м):</label>
-            <input 
-                type="number" 
-                step="0.01" 
-                min={lengthConfig?.min}
-                max={lengthConfig?.max} 
-                value={length} 
-                required
-                onChange={(e) => setLength(+e.target.value)} 
-                className="p-2 border rounded" 
-            />
-
+            <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm">
+                <Input 
+                    label="Ширина изделия&nbsp;(м):"
+                    value={width}
+                    onChange={setWidth}
+                    min={widthConfig?.min}
+                    max={widthConfig?.max}
+                    required
+                />
+                <Input
+                    label="Длина изделия&nbsp;(м):"
+                    value={length}
+                    onChange={setLength}
+                    min={lengthConfig?.min}
+                    max={lengthConfig?.max}
+                    required
+                />
+            </div>
             {error && <div className="text-red-600 font-medium mt-2">{error}</div>}
             <Button className="mt-4 bg-blue-600 hover:bg-blue-700 transition text-white">Рассчитать</Button>
         </form>

@@ -12,3 +12,7 @@ export interface ResultsType {
     material: string;
     pipe: string;
 }
+
+export type SortType = 'price' | 'width';
+
+export type SortDirectionType = 'asc' | 'desc';

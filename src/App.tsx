@@ -20,7 +20,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="w-full xl:w-1/2">
                     {results && (
-                        <div className="flex flex-col gap-4 overflow-auto bg-white rounded-lg shadow-lg p-6 animate-slide-up">
+                        <div className="flex flex-col gap-4 bg-white rounded-lg shadow-lg p-6 animate-slide-up">
                             <ResultsTable results={results} />
                         </div>
                     )}
